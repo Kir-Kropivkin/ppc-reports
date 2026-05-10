@@ -56,10 +56,23 @@ function TrendIcon({ trend }: { trend: string }) {
   return <Minus className="w-4 h-4 text-slate-400" />;
 }
 
+function DataUpdating() {
+  return (
+    <div className="glass rounded-2xl border border-white/8 p-10 text-center">
+      <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center mx-auto mb-4">
+        <BarChart3 className="w-6 h-6 text-blue-400 animate-pulse" />
+      </div>
+      <p className="text-white font-semibold mb-1">Дані оновлюються</p>
+      <p className="text-slate-500 text-sm">Дані для цього періоду ще оновлюються. Спробуйте пізніше.</p>
+    </div>
+  );
+}
+
 export default function ReportPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
   const report = reports.find((r) => r.slug === slug) as Report | undefined;
   if (!report) notFound();
+  const safeReport = report!;
 
   return (
     <main
@@ -83,10 +96,10 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
               <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
                 <BarChart3 className="w-4 h-4 text-white" />
               </div>
-              <span className="text-white font-semibold">{report.client}</span>
+              <span className="text-white font-semibold">{safeReport.client}</span>
             </div>
           </div>
-          <span className="text-slate-500 text-sm hidden sm:block">{report.period}</span>
+          <span className="text-slate-500 text-sm hidden sm:block">{safeReport.period}</span>
         </div>
       </header>
 
@@ -94,9 +107,9 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
 
         {/* ── HERO ── */}
         <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <p className="text-blue-400 text-xs font-semibold uppercase tracking-widest mb-2">Звіт за {report.period}</p>
+          <p className="text-blue-400 text-xs font-semibold uppercase tracking-widest mb-2">Звіт за {safeReport.period}</p>
           <h1 className="text-5xl font-extrabold text-white mb-3 leading-tight">
-            {report.client}
+            {safeReport.client}
             <span className="text-blue-500"> /</span>
           </h1>
           <p className="text-slate-400 text-lg">Аналіз ефективності Google Ads кампаній</p>
@@ -111,7 +124,7 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
             Ключові показники
           </motion.h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {report.metrics.map((metric, i) => {
+            {safeReport.metrics.map((metric, i) => {
               const colors = METRIC_COLORS[metric.color] ?? METRIC_COLORS.blue;
               const Icon = ICON_MAP[metric.icon] ?? TrendingUp;
               return (
@@ -159,7 +172,7 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {report.strategies.map((strategy, i) => (
+            {safeReport.strategies.map((strategy, i) => (
               <motion.div
                 key={strategy.id}
                 custom={i + 4}
@@ -241,7 +254,7 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
             transition={{ delay: 0.65, duration: 0.5 }}
           >
             {/* Table header */}
-            <div className="grid grid-cols-[80px_1fr_2fr_120px] gap-4 px-6 py-3 border-b border-white/5 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <div className="hidden sm:grid sm:grid-cols-[72px_1fr_2fr_110px] gap-3 px-6 py-3 border-b border-white/5 text-xs font-semibold uppercase tracking-wider text-slate-500">
               <span>Дата</span>
               <span>Кампанія</span>
               <span>Дія</span>
@@ -249,7 +262,10 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
             </div>
 
             {/* Rows */}
-            {report.workPlan.map((item, i) => {
+            {safeReport.workPlan.length === 0 && (
+              <DataUpdating />
+            )}
+            {safeReport.workPlan.map((item, i) => {
               const st = STATUS_CONFIG[item.status] ?? STATUS_CONFIG.Optimizing;
               return (
                 <motion.div
@@ -258,12 +274,12 @@ export default function ReportPage({ params }: { params: Promise<{ slug: string 
                   variants={fadeUp}
                   initial="hidden"
                   animate="visible"
-                  className="grid grid-cols-[80px_1fr_2fr_120px] gap-4 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors items-center"
+                  className="flex flex-col sm:grid sm:grid-cols-[72px_1fr_2fr_110px] gap-2 sm:gap-3 px-6 py-4 border-b border-white/5 last:border-0 hover:bg-white/[0.02] transition-colors sm:items-center print:grid print:grid-cols-[72px_1fr_2fr_110px]"
                 >
                   <span className="text-slate-400 text-sm font-mono">{item.date}</span>
-                  <span className="text-white text-sm font-medium leading-snug">{item.campaign}</span>
-                  <span className="text-slate-300 text-sm leading-snug">{item.action}</span>
-                  <div className="flex justify-end">
+                  <span className="text-white text-sm font-medium leading-snug break-words">{item.campaign}</span>
+                  <span className="text-slate-300 text-sm leading-relaxed break-words">{item.action}</span>
+                  <div className="flex sm:justify-end">
                     <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${st.bg} ${st.text}`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${st.dot}`} />
                       {st.label}
