@@ -57,7 +57,7 @@ export default async function HomePage() {
             <BarChart3 className="w-10 h-10 text-slate-600 mx-auto mb-4" />
             <p className="text-slate-400 font-medium mb-1">Клієнтів поки немає</p>
             <p className="text-slate-600 text-sm">
-              Додайте лист із назвою клієнта у Google Таблицю — він з'явиться тут автоматично.
+              Додайте лист із назвою клієнта у Google Таблицю — він з&apos;явиться тут автоматично.
             </p>
           </div>
         ) : (

@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Legend,
+  Tooltip, ResponsiveContainer,
 } from "recharts";
 import type { ReportRow, ContactSettings } from "@/types/report";
 
@@ -314,7 +314,7 @@ function DataUpdating() {
 
 // ── Main Client Component ──────────────────────────────────────────────────────
 
-export default function ReportClient({ slug, rows, contacts }: Props) {
+export default function ReportClient({ rows, contacts }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(rows.length > 0 ? rows.length - 1 : 0);
 
   const current = rows[selectedIdx] ?? null;
