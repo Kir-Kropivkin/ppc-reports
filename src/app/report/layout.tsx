@@ -1,6 +1,8 @@
 import { getAvailableClients } from "@/lib/sheets";
 import Sidebar from "@/components/Sidebar";
 
+export const revalidate = 3600;
+
 export default async function ReportLayout({
   children,
 }: {
