@@ -1,18 +1,12 @@
 import { getAvailableClients } from "@/lib/sheets";
 import Sidebar from "@/components/Sidebar";
-import type { ClientSummary } from "@/types/report";
 
 export default async function ReportLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  let clients: ClientSummary[] = [];
-  try {
-    clients = await getAvailableClients();
-  } catch {
-    // env vars may not be set in dev — fall back to empty list
-  }
+  const clients = await getAvailableClients();
 
   return (
     <div

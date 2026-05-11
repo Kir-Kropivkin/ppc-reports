@@ -15,7 +15,7 @@ export default function Sidebar({ clients }: SidebarProps) {
   // Extract slug from /report/[slug] or /report/[slug]/print etc.
   const segments = pathname.split("/");
   const reportIndex = segments.indexOf("report");
-  const currentSlug = reportIndex !== -1 ? segments[reportIndex + 1] : "";
+  const currentSlug = reportIndex !== -1 ? (segments[reportIndex + 1] ?? "") : "";
 
   return (
     <aside
@@ -49,10 +49,10 @@ export default function Sidebar({ clients }: SidebarProps) {
                 <Link
                   href={`/report/${client.slug}`}
                   className={[
-                    "flex items-center gap-2 px-2 py-2 rounded text-sm transition-colors",
+                    "flex items-center gap-2 pr-2 pl-[6px] py-2 rounded text-sm transition-colors",
                     isActive
-                      ? "bg-blue-500/10 text-blue-400 border-l-2 border-blue-500 pl-[6px]"
-                      : "text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent pl-[6px]",
+                      ? "bg-blue-500/10 text-blue-400 border-l-2 border-blue-500"
+                      : "text-slate-400 hover:text-white hover:bg-white/5 border-l-2 border-transparent",
                   ].join(" ")}
                 >
                   <BarChart3 className="w-4 h-4 shrink-0" />
