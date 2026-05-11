@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { BarChart3, ArrowLeft } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import { getClientData } from "@/lib/sheets";
 import ReportClient from "@/components/ReportClient";
 
@@ -57,21 +56,11 @@ export default async function ReportPage({ params }: Props) {
         style={{ background: "rgba(10,10,15,0.85)", backdropFilter: "blur(20px)" }}
       >
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm print:hidden"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Всі звіти
-            </Link>
-            <span className="text-white/20 print:hidden">|</span>
-            <div className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-                <BarChart3 className="w-4 h-4 text-white" />
-              </div>
-              <span className="text-white font-semibold">{clientTitle}</span>
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
+              <BarChart3 className="w-4 h-4 text-white" />
             </div>
+            <span className="text-white font-semibold">{clientTitle}</span>
           </div>
           {latestPeriod && (
             <span className="text-slate-500 text-sm hidden sm:block">{latestPeriod}</span>
