@@ -41,90 +41,10 @@ body {
   box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
 }
 
-/* ── PRINT STYLES ── A4, Ctrl+P */
+/* ── PRINT STYLES ── */
 @media print {
   @page {
     size: A4 portrait;
     margin: 12mm 14mm;
-  }
-
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-
-  body {
-    background: #ffffff !important;
-    color: #111827 !important;
-    font-size: 11pt;
-  }
-
-  /* Hide nav elements */
-  header,
-  a[href="/"] {
-    display: none !important;
-  }
-
-  /* Reset dark backgrounds for print */
-  main {
-    background: #ffffff !important;
-    padding: 0 !important;
-  }
-
-  .glass {
-    background: #f9fafb !important;
-    border: 1px solid #e5e7eb !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    break-inside: avoid;
-  }
-
-  .glow-blue,
-  .glow-green,
-  .glow-purple {
-    box-shadow: none !important;
-  }
-
-  /* Metric cards — row on print */
-  .grid.grid-cols-1.sm\\:grid-cols-3 {
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 8px !important;
-  }
-
-  /* Strategy cards side by side */
-  .grid.grid-cols-1.lg\\:grid-cols-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 8px !important;
-  }
-
-  /* Work plan table */
-  .flex-col.sm\\:grid {
-    display: grid !important;
-  }
-
-  /* Text colors for print */
-  .text-white, h1, h2, h3 {
-    color: #111827 !important;
-  }
-  .text-slate-300, .text-slate-400 {
-    color: #374151 !important;
-  }
-  .text-slate-500, .text-slate-600 {
-    color: #6b7280 !important;
-  }
-  .text-blue-400  { color: #2563eb !important; }
-  .text-green-400 { color: #16a34a !important; }
-  .text-purple-400 { color: #7c3aed !important; }
-  .text-red-400   { color: #dc2626 !important; }
-
-  /* Prevent page breaks inside cards */
-  section {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* Sticky header — static on print */
-  header.sticky {
-    position: static !important;
   }
 }
