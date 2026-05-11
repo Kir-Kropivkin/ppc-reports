@@ -5,7 +5,7 @@ import { motion, type Variants } from "framer-motion";
 import {
   TrendingUp, Target, DollarSign, MousePointerClick,
   Users, BarChart3, ChevronDown, Mail, Phone,
-  Globe, Send, ArrowUp, ArrowDown, Minus,
+  Globe, Send, ArrowUp, ArrowDown, Minus, Printer,
 } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
@@ -79,6 +79,20 @@ function PeriodSelector({ rows, selectedIdx, onChange }: {
       </select>
       <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
     </div>
+  );
+}
+
+// ── Print Button ───────────────────────────────────────────────────────────────
+
+function PrintButton({ slug }: { slug: string }) {
+  return (
+    <button
+      onClick={() => window.open(`/report/${slug}/print`, "_blank")}
+      className="print:hidden flex items-center gap-2 px-3 py-2 rounded-xl text-sm text-slate-400 hover:text-white hover:bg-white/8 border border-white/10 hover:border-white/20 transition-colors"
+    >
+      <Printer className="w-4 h-4" />
+      Друк / PDF
+    </button>
   );
 }
 
@@ -314,7 +328,7 @@ function DataUpdating() {
 
 // ── Main Client Component ──────────────────────────────────────────────────────
 
-export default function ReportClient({ rows, contacts }: Props) {
+export default function ReportClient({ slug, rows, contacts }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(rows.length > 0 ? rows.length - 1 : 0);
 
   const current = rows[selectedIdx] ?? null;
@@ -332,9 +346,12 @@ export default function ReportClient({ rows, contacts }: Props) {
             ? `${rows.length} ${rows.length === 1 ? "запис" : rows.length < 5 ? "записи" : "записів"} в архіві`
             : "Даних ще немає"}
         </p>
-        {rows.length > 1 && (
-          <PeriodSelector rows={rows} selectedIdx={selectedIdx} onChange={setSelectedIdx} />
-        )}
+        <div className="flex items-center gap-2">
+          {rows.length > 1 && (
+            <PeriodSelector rows={rows} selectedIdx={selectedIdx} onChange={setSelectedIdx} />
+          )}
+          <PrintButton slug={slug} />
+        </div>
       </div>
 
       {/* Metric cards */}
